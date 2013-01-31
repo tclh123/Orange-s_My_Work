@@ -1,0 +1,43 @@
+1.2
+
+其实这节讲的是编写一个简单的引导扇区。
+正确的引导扇区：以0xAA55（2字节）结束，且包含一段少于512字节的执行码。
+
+编写NASM规范的代码，跟MASM有一些不同。
+
+一旦BIOS发现了引导扇区，就会将这512字节的内容（二进制），装载到内存地址0000:7c00处（org伪指令，origin的意思，程序起始地址）。然后，BIOS将控制权彻底交给这段引导代码。
+
+nasm boot.asm -o boot.bin
+
+然后，如果有软盘，可以
+sudo dd if=boot.bin of=/dev/fd0 bs=512 count=1
+来将boot.bin写入软盘（0面0道1扇区）。
+
+2.1
+
+1、先创建一个软盘映像，使用 Bochs自带的bximage。
+在终端输入bximage，会有若干选项，只需选择fd(软盘)，其余都默认。然后在目录下便生成了a.img。
+2、将引导扇区写入软盘
+dd if=boot.bin of=a.img bs=512 count=1 conv=notrunc
+输入
+记录了1+0 的读入
+记录了1+0 的写出
+512字节(512 B)已复制，0.000100364 秒，5.1 MB/秒
+3、配置bochs
+各种问题，我折腾了会儿。。
+先加环境变量$BXSHARE，
+在 /etc/profile 末尾加入
+BXSHARE=/usr/local/share/bochs
+export BXSHARE
+然后在目录下编写配置文件bochsrc。
+4、运行
+命令行输入 bochs 即可。<del>由于我安装的时候貌似把图形界面 disabled了。。所以bochs只能用来命令行调试了吧。。<del>
+又装了一次，把 configure里的退出的地方注释掉，就行了。
+    echo ERROR: X windows gui was selected, but X windows libraries were not found.
+
+    #exit 1
+因为我是有X11的，不知道为什么 $display_libs X11 的时候就显示没有。 
+
+<del>于是，我去安装 qemu了。。<del>
+
+
