@@ -16,7 +16,7 @@ floppya: 1_44=a.img, status=inserted
 boot: floppy
 
 # where do we send log messages?
-log: bochsout.txt
+log: bochsout.log
 
 # disable the mouse
 mouse: enabled=0

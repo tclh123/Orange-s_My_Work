@@ -1,0 +1,25 @@
+一、
+1/ EAX 32位寄存器
+ 00000000 00000000 00000000 00000000
+|-------- -------- -------- --------| EAX 
+                  |-------- --------|  AX  
+                  |--------|           AH
+                           |--------|  AL
+
+2/ 将程序编译成COM文件，使用DOS来执行它
+1. 下载 freedos.img
+2. 用bximage 生成一个软盘镜像 pm.img
+3. 修改 bochsrc
+4. 启动 bochs，待freedos启动完，格式化B:盘.
+	format b:
+5. 将pmtest1.asm org地址改为 0100h，并重新编译
+	nasm pmtest1.asm -o pmtest1.com
+6. 将pmtest1.com 复制到虚拟软盘pm.img上：
+sudo mount -o loop pm.img /mnt/floppy
+sudo cp pmtest1.com /mnt/floppy
+sudo umount /mnt/floppy
+
+7. 到 freedos中执行命令：
+	B:\pmtest1.com
+
+3/
