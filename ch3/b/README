@@ -1,0 +1,9 @@
+
+1/ 编写 pmtest2.asm
+2/ 编译 pmtest2.com
+nasm pmtest2.asm -o pmtest2.com
+3/ 将.com文件cp到pm.img中
+（2、3两步写了Makefile，直接make即可）
+4/ 运行bochs，输入
+b:\pmtest2.com
+
